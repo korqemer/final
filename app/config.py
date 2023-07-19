@@ -11,6 +11,9 @@ class Settings():
     database_name = os.environ.get("DATABASE_NAME")
     database_username = os.environ.get("DATABASE_USERNAME")
     openai_key = os.environ.get("OPENAI_KEY")
+    secret_key = os.environ.get("SECRET_KEY")
+    algorithm = os.environ.get("ALGORITHM")
+    access_token_expire_minutes = os.environ.get("TOKEN_EXPIRE_TIME")
 
 
 settings = Settings()
