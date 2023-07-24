@@ -2,11 +2,6 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-class Answer(BaseModel):
-    question: str
-    answer: str
-
-
 class Applicant(BaseModel):
     name: str
     surname: str
@@ -27,8 +22,8 @@ class HR(BaseModel):
 
 
 class HRResponse(BaseModel):
-    email: str
     name: str
+    email: str
 
 
 class Token(BaseModel):
@@ -38,3 +33,23 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: Optional[str] = None
+
+
+class InterviewStart(BaseModel):
+    title: str
+
+
+class InterviewResponse(BaseModel):
+    title: str
+    code: str
+
+    class Config:
+        from_attributes = True
+
+
+class Interview_code(BaseModel):
+    code: str
+
+
+class Answer(BaseModel):
+    answer: str

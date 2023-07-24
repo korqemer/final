@@ -31,20 +31,20 @@ class Interview(Base):
                       ForeignKey("hrs.id", ondelete="CASCADE"),
                       nullable=False)
     user_id = Column(Integer,
-                     ForeignKey("applicants.id", ondelete="CASCADE"),
-                     nullable=False)
-    finished = Column(Boolean, nullable=False)
+                     ForeignKey("applicants.id", ondelete="CASCADE"))
+    finished = Column(Boolean, nullable=False, default=False)
     score = Column(Float)
+    id_code = Column(String, nullable=False)
 
 
 class Question(Base):
     __tablename__ = "questions"
     id = Column(Integer, primary_key=True, nullable=False)
     question = Column(String, nullable=False)
-    answer = Column(String, nullable=False)
+    answer = Column(String)
     interview_id = Column(Integer,
                           ForeignKey("interviews.id", ondelete="CASCADE"),
                           nullable=False)
     answered_at = Column(TIMESTAMP(timezone=True), nullable=False,
                          server_default=text("now()"))
-    score = Column(Integer, nullable=False)
+    score = Column(Integer)

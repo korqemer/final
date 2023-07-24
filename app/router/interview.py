@@ -5,20 +5,38 @@ from sqlalchemy.orm import Session
 from .. import schema
 from .. import models
 
-router = APIRouter(tags=["interview"], prefix="/interview")
+
+router = APIRouter(
+    tags=["interview"],
+    prefix="/interview")
 
 
-@router.get("/question")
-async def question(db: Session = Depends(get_db)):
-    new_question = models.Question()
-    return {"question": get_question()}
-
-
-@router.post("/question")
-async def answer(answer: schema.Answer, db: Session = Depends(get_db)):
-    new_answer = models.Question(question = answer.question, answer = answer.answer,
-                                 interview_id = 1)
-    db.add(new_answer)
+# we create the question instance here
+@router.get("/{interview_code}")
+def question(interview_code: str, db: Session = Depends(get_db)):
+    interview = db.query(models.Interview).filter(
+        models.Interview.id_code == interview_code).first()
+    new_question = models.Question(
+        question=get_question(),
+        interview_id=interview.id
+    )
+    db.add(new_question)
     db.commit()
-    db.refresh(new_answer)
-    return new_answer
+    db.refresh(new_question)
+    return new_question
+
+
+# we take question instance and put the value
+@router.post("/{interview_code}/{question_id}")
+def answer(answer: schema.Answer,
+           question_id: int, interview_code: str,
+           db: Session = Depends(get_db)):
+    question = db.query(models.Question).filter(
+        models.Question.id == question_id).first()
+    question.answer = answer.answer
+    question.score = get_score(question.question, question.answer)
+    db.commit()
+    db.refresh(question)
+    edited_question = db.query(models.Question).filter(
+        models.Question.id == question_id).first()
+    return edited_question

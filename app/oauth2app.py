@@ -15,7 +15,7 @@ ALGORITHM = settings.algorithm
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.access_token_expire_minutes
 
 
-# JWT for HR 
+# JWT for Applicants
 def create_access_token(data: dict):
     to_encode = data.copy()
 
@@ -50,6 +50,7 @@ def get_current_user(token: str = Depends(oauth2_scheme),
 
     token = verify_access_token(token, credentials_exception)
 
-    user = db.query(models.HR).filter(models.HR.id == token.id).first()
+    user = db.query(models.Applicant).filter(
+        models.Applicant.id == token.id).first()
 
     return user
