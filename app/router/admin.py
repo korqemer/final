@@ -40,3 +40,9 @@ def get_hr(id: int, db: Session = Depends(get_db)):
 @router.get("/interview")
 def get_all_interview(db: Session = Depends(get_db)):
     return db.query(models.Interview).all()
+
+
+
+@router.get("/haha")
+def get_me_interview(db: Session = Depends(get_db)):
+    return "haAHAHAHAHAHha"

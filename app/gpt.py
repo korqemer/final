@@ -41,7 +41,7 @@ def get_score(question, answer):
     prompt = f"""
         Question:{question}
         Answer: {answer} 
-        Provide me a score, just a number, without any comments """
+        Provide me a score, just an integer, without any comments """
 
     response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
